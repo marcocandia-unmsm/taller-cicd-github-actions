@@ -19,7 +19,7 @@ function saludar(nombre) {
 }
 
 if (require.main === module) {
-  console.log(saludar("Mundo"));
+  console.log(saludar("Marco"));
   console.log(`2 + 3 = ${sumar(2, 3)}`);
 }
 

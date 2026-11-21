@@ -54,7 +54,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 2. Despliegue (Simulación)
-        run: echo "📦 Despliegue del código verificado a Producción."
+        run: echo "Despliegue del código verificado a Producción."
         env:
           # En un caso real, el token se guarda en:
           # Settings > Secrets and variables > Actions > New repository secret
