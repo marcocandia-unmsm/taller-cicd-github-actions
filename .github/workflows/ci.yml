@@ -1,0 +1,63 @@
+# CI/CD · Taller GitHub Actions
+# Fase III: integración continua (matriz de versiones de Node).
+# Fase IV: entrega continua condicional mediante `needs`.
+
+name: CI/CD - Taller GitHub Actions
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  # -------------------- Fase III: CI --------------------
+  build_and_test:
+    name: CI · build and test (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: ["20", "22", "24"]
+
+    steps:
+      - name: 1. Descargar código
+        uses: actions/checkout@v4
+
+      - name: 2. Configurar Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      - name: 3. Instalar dependencias
+        run: npm ci
+
+      - name: 4. Ejecutar pruebas
+        run: npm test
+
+  # -------------------- Fase IV: CD --------------------
+  deploy:
+    name: CD · deploy condicional
+    runs-on: ubuntu-latest
+    # ¡CLAVE! Espera a que TODA la matriz de build_and_test termine con éxito.
+    # Si el CI falla, este job se marca automáticamente como Skipped.
+    needs: [build_and_test]
+
+    steps:
+      # El runner de deploy es una VM nueva y vacía: necesita el código otra vez.
+      - name: 1. Descargar código para Despliegue
+        uses: actions/checkout@v4
+
+      - name: 2. Despliegue (Simulación)
+        run: echo "📦 Despliegue del código verificado a Producción."
+        env:
+          # En un caso real, el token se guarda en:
+          # Settings > Secrets and variables > Actions > New repository secret
+          # y se referencia aquí sin exponerlo en el YAML público:
+          # CLOUD_API_TOKEN: ${{ secrets.CLOUD_API_TOKEN }}
+          API_STATUS: OK

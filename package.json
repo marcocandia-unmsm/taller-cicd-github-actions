@@ -1,0 +1,14 @@
+{
+  "name": "taller-cicd-github-actions",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Proyecto de clase para el taller CI/CD con GitHub Actions (Fases I-IV)",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --test index.test.js",
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
