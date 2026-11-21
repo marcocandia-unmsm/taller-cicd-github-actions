@@ -9,7 +9,7 @@ const assert = require("node:assert/strict");
 const { sumar, restar, saludar } = require("./index.js");
 
 test("sumar devuelve la suma de dos números", () => {
-  assert.equal(sumar(2, 3), 5);
+  assert.equal(sumar(2, 3), 99);
   assert.equal(sumar(-1, 1), 0);
 });
 
